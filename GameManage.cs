@@ -21,7 +21,6 @@ namespace TextRPG
         //게임시작
         public void StartGame() //게임시작
         {
-            _shop.ShopItems();
             Init();
 
             //게임종료
@@ -96,7 +95,7 @@ namespace TextRPG
         }
 
         //게임 종료기능
-        private void InputHandler() //esc 키가 눌릴시
+        private void InputHandler() //esc 키가 눌릴시 게임 종료되는 메서드
         {
             var input = Console.ReadKey();
             if(input.Key == ConsoleKey.Escape)

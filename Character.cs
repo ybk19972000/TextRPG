@@ -9,19 +9,19 @@ namespace TextRPG
 
     public class Character
     {
-        public CharStat stat { get; private set; } // Character.CharStat으로 쓰기위함
-
-        private Inventory<Item> _userInventory;
-
+        public CharStat stat { get; private set; } // Character.CharStat으로 쓰기위함       
+        public Inventory<Item> _userInventory; //캐릭터 인벤토리도 생성자에 넣으면 얘도 꺼내 쓸수 있음
         public Job characterJob; // 이넘 선언
         public string name;
         
 
         public Character(string name) //생성자
         {
+           _userInventory = new Inventory<Item>();
             stat = new CharStat(); //생성시 스탯도 생성
-            this.name = name;    
-        }
+            this.name = name;
+
+    }
         
         public void JobStat(Job job) // 선택한 직업마다 스탯이 다름
         {
