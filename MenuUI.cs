@@ -140,7 +140,7 @@ namespace TextRPG
                 Console.Clear();
                 Console.WriteLine("구매창입니다.\n[구매를 원하시면 아이템 번호를 입력해주세요]\n");
                 Console.WriteLine($"\n[보유 골드]\n{character.stat.gold}G\n");
-                PrintShopItem(shop);
+                PrintShopItem(shop, character);
                 Console.WriteLine($"0.{_menuOptions[0]}");
                 PrintMenuInput();
 
@@ -148,13 +148,15 @@ namespace TextRPG
                 if (isInt && input >= 1 && input <= item.Count)
                 {
                     var selectedItem = item[input-1];
+
                     if (character.stat.gold >= selectedItem.sellPrice)
                     {
                         character.stat.gold -= selectedItem.sellPrice;
                         character._userInventory.AddItem(selectedItem);
-                        shop._shopInventory.RemoveItem(selectedItem);
+
                         Console.WriteLine(selectedItem.itemName + "를 구매하셨습니다.");
                         Console.WriteLine($"{character.stat.gold}G가 있습니다.");
+                        
                     }
                     else 
                     {
@@ -166,7 +168,11 @@ namespace TextRPG
                 {
                     Console.WriteLine("나가기");
                     isExit = true;
-                }  
+                }
+                else
+                {
+                    Console.WriteLine("잘못된 입력입니다.");
+                }
             }   
 
         }
@@ -195,8 +201,7 @@ namespace TextRPG
                 {
                     var selectedItem = item[input - 1];
 
-                    character.stat.gold += selectedItem.sellPrice;
-                    shop._shopInventory.AddItem(selectedItem);
+                    character.stat.gold += selectedItem.sellPrice/2;
                     character._userInventory.RemoveItem(selectedItem);
 
                     Console.WriteLine(selectedItem.itemName + "를 판매하셨습니다.");
@@ -271,7 +276,7 @@ namespace TextRPG
                             }
                             break;
                         default:
-                            Console.WriteLine("다시 입력해주세요.");
+                            Console.WriteLine("잘못된 입력입니다.");
                             break;
                     }
 
@@ -288,17 +293,28 @@ namespace TextRPG
         {
             Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.");
             Console.WriteLine($"\n[보유 골드]\n{character.stat.gold}G\n");
-            PrintShopItem(shop);
+            PrintShopItem(shop,character);
 
         }
 
-        private void PrintShopItem(Shop shop)
+        private void PrintShopItem(Shop shop,Character character)
         {
+            var items = shop._shopInventory.GetItems();
+
             //foreach (var item in _shopInventory.GetItems())//아이템 넘버 주기| 대신 for문으로 i를 아이템번호 
             for (int i = 1; i < shop._shopInventory.GetItems().Count + 1; i++)
             {
-                var item = shop._shopInventory.GetItems()[i - 1];
-                Console.WriteLine($"{i}. [{item.itemName}]|{item.itemType}:+{item.itemStat}|'{item.describe}'|{item.sellPrice}G|\n ");
+                var item = items[i-1];
+                bool isSelled = character._userInventory.GetItems().Contains(item); //해당 캐릭터가 아이템을 보유하고 있는지 확인
+
+                if (isSelled)
+                {
+                    Console.WriteLine($"{i}. [{item.itemName}]|{item.itemType}:+{item.itemStat}|'{item.describe}'|[구매완료]|\n ");
+                }
+                else
+                {
+                    Console.WriteLine($"{i}. [{item.itemName}]|{item.itemType}:+{item.itemStat}|'{item.describe}'|{item.sellPrice}G|\n ");
+                }
             }
 
         }
@@ -315,7 +331,7 @@ namespace TextRPG
 
                 if (isEquipped)
                 {
-                    equipTag = "[장착 중]";
+                    equipTag = "[E]";
                 }
                 else
                 {
