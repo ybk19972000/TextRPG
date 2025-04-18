@@ -10,16 +10,16 @@ namespace TextRPG
     {
         public List<T> _items = new List<T>();
 
-        public List<T> GetItems() //아이템 목록 반환
+        public List<T> GetItems() //아이템 리스트 반환
         {
             return _items;
         }
-        public void AddItem(T item)  //아이템 목록에 추가
+        public void AddItem(T item)  //아이템 리스트에 추가
         { 
             _items.Add(item); 
         }
 
-        public void RemoveItem(T item)//아이템 목록에서 제거
+        public void RemoveItem(T item)//아이템 리스트에서 제거
         {
             _items.Remove(item);
         }

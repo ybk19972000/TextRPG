@@ -14,6 +14,7 @@ namespace TextRPG
         {
             _shopInventory = new Inventory<Item>();
 
+            //기본 판매 상품들
             _shopInventory.AddItem(new Item("더블배럴샷건", ItemType.공격력, 55, "어디선가 헤비메탈이 들립니다.", 3000));
             _shopInventory.AddItem(new Item("이진검", ItemType.공격력, 10, "일반 검처럼 생겼으나 이진법의 패턴이 그려진 칼입니다.", 500));
             _shopInventory.AddItem(new Item("스페이스마린갑주", ItemType.방어력, 40, "For The Emperor!!!!", 2500));

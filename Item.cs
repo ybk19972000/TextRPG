@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace TextRPG
 {
     //아이템 종류
-    public enum ItemType
+    public enum ItemType //나중에 Enum끼리 묶기
     {
         공격력,
         방어력,

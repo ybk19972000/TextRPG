@@ -9,8 +9,9 @@ namespace TextRPG
 
     public class Character
     {
-        public CharStat stat { get; private set; } // Character.CharStat으로 스탯 변수들을 읽기위함       
+        public CharStat stat { get; set; } 
         public Inventory<Item> _userInventory;
+
         public Item equippedWeapon;
         public Item equippedArmor;
 
@@ -55,7 +56,7 @@ namespace TextRPG
         }
 
     }
-    public enum Job //캐릭터 역할군
+    public enum Job //캐릭터 역할군 나중에 Enum끼리 묶기
     {
         Warrior = 1,
         Wizzard,

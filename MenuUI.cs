@@ -127,7 +127,7 @@ namespace TextRPG
             }
         }
 
-        private void BuyItem(Shop shop, Character character)
+        private void BuyItem(Shop shop, Character character)  //구매창 출력과 구매 로직
         {
             bool isExit = false;
             bool isInt = false;
@@ -178,7 +178,7 @@ namespace TextRPG
         }
 
 
-        private void SellItem(Shop shop, Character character) //내일 여기서부터 시작
+        private void SellItem(Shop shop, Character character) //판매창 출력과 판매 로직
         {
             bool isExit = false;
             bool isInt = false;
@@ -202,7 +202,7 @@ namespace TextRPG
                     var selectedItem = item[input - 1];
 
                     character.stat.gold += (int)(selectedItem.sellPrice * 0.85f);
-                    character._userInventory.RemoveItem(selectedItem);
+                    character._userInventory.RemoveItem(selectedItem);              //판매한 아이템 유저인벤토리에서 삭제
 
                     Console.WriteLine(selectedItem.itemName + "를 판매하셨습니다.");
                     Console.WriteLine($"골드가 {character.stat.gold}G 남았습니다.");
@@ -216,7 +216,7 @@ namespace TextRPG
             }
         }
 
-        private void EquipInventory(Character character)
+        private void EquipInventory(Character character)  //아이템 사용 화면창과 아이템 사용 로직
         {
 
             bool isExit = false;
@@ -240,7 +240,7 @@ namespace TextRPG
                     {
                         case ItemType.체력회복:
                             character.stat.maxHealth += selectedItem.itemStat;
-                            character._userInventory.RemoveItem(selectedItem);
+                            character._userInventory.RemoveItem(selectedItem);  //소모품인 포션은 아이템 삭제
                             break;
                         case ItemType.방어력:
                             if (character.equippedArmor == selectedItem)
@@ -252,21 +252,21 @@ namespace TextRPG
                             {
                                 if (character.equippedArmor != null)
                                 {
-                                    character.stat.defendStat -= character.equippedArmor.itemStat; //장착 했던 장비 빼고 
+                                    character.stat.defendStat -= character.equippedArmor.itemStat; //장착 했던 장비 스탯 빼기
                                 }
                                 character.equippedArmor = selectedItem; //장비 장착
                                 character.stat.defendStat += selectedItem.itemStat;
                             }
                             break;
                         case ItemType.공격력:
-                            if (character.equippedWeapon == selectedItem)
+                            if (character.equippedWeapon == selectedItem) //캐릭터의 아이템변수에 장비가 있으면 장비 해제
                             {
                                 character.stat.attackStat -= selectedItem.itemStat;
                                 character.equippedWeapon = null; 
                             }
-                            else
+                            else //없으면 장비 장착
                             {
-                                if(character.equippedWeapon != null)
+                                if(character.equippedWeapon != null) //기존의 장비는 해제 하면서 기존장비 -> 현재 장비 스탯 변경
                                 {
                                     character.stat.attackStat -= character.equippedWeapon.itemStat;
                                 }
@@ -289,7 +289,7 @@ namespace TextRPG
             }
         }
 
-        private void PrintShop(Character character, Shop shop)
+        private void PrintShop(Character character, Shop shop)  //상점 화면 출력
         {
             Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.");
             Console.WriteLine($"\n[보유 골드]\n{character.stat.gold}G\n");
@@ -305,21 +305,21 @@ namespace TextRPG
             for (int i = 1; i < shop._shopInventory.GetItems().Count + 1; i++)
             {
                 var item = items[i-1];
-                bool isSelled = character._userInventory.GetItems().Contains(item); //해당 캐릭터가 아이템을 보유하고 있는지 확인
+                bool isSelled = character._userInventory.GetItems().Contains(item); //해당 캐릭터 유저인벤토리 리스트에 아이템을 보유하고 있는지 확인
 
                 if (isSelled)
                 {
-                    Console.WriteLine($"{i}. [{item.itemName}]|{item.itemType}:+{item.itemStat}|'{item.describe}'|[구매완료]|\n ");
+                    Console.WriteLine($"{i}. [{item.itemName}]|{item.itemType}:+{item.itemStat}|'{item.describe}'|[구매완료]|\n "); //있으면 구매 완료 표시
                 }
                 else
                 {
-                    Console.WriteLine($"{i}. [{item.itemName}]|{item.itemType}:+{item.itemStat}|'{item.describe}'|{item.sellPrice}G|\n ");
+                    Console.WriteLine($"{i}. [{item.itemName}]|{item.itemType}:+{item.itemStat}|'{item.describe}'|{item.sellPrice}G|\n "); //없으면 그대로 출력
                 }
             }
 
         }
 
-        private void PrintCharacterInven(Character character)
+        private void PrintCharacterInven(Character character) //인벤토리 장착 화면 출력
         {
             string equipTag;
             var items = character._userInventory.GetItems();
@@ -327,23 +327,23 @@ namespace TextRPG
             for (int i = 1; i < character._userInventory.GetItems().Count + 1; i++)
             {
                 var item = items[i-1];
-                bool isEquipped = ((item == character.equippedWeapon) || (item == character.equippedArmor));
+                bool isEquipped = ((item == character.equippedWeapon) || (item == character.equippedArmor)); //아이템변수에 방어구나 무기가 들어가 있으면 true
 
                 if (isEquipped)
                 {
-                    equipTag = "[E]";
+                    equipTag = "[E]"; // 장착한 장비에 표시
                 }
                 else
                 {
                     equipTag = "";
                 }
 
-                Console.WriteLine($"{i}. {equipTag} [{item.itemName}]|{item.itemType}:+{item.itemStat}|'{item.describe}'|\n ");
+                Console.WriteLine($"{i}. {equipTag} [{item.itemName}]|{item.itemType}:+{item.itemStat}|'{item.describe}'|\n "); //출력
 
             }
         }
 
-        private void PrintInven(Character character)
+        private void PrintInven(Character character) //인벤토리 화면
         {
             Console.Clear();
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다. ");
