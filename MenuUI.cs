@@ -201,7 +201,7 @@ namespace TextRPG
                 {
                     var selectedItem = item[input - 1];
 
-                    character.stat.gold += selectedItem.sellPrice/2;
+                    character.stat.gold += (int)(selectedItem.sellPrice * 0.85f);
                     character._userInventory.RemoveItem(selectedItem);
 
                     Console.WriteLine(selectedItem.itemName + "를 판매하셨습니다.");
