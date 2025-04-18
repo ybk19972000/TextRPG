@@ -9,19 +9,22 @@ namespace TextRPG
 
     public class Character
     {
-        public CharStat stat { get; private set; } // Character.CharStat으로 쓰기위함       
-        public Inventory<Item> _userInventory; //캐릭터 인벤토리도 생성자에 넣으면 얘도 꺼내 쓸수 있음
-        public Job characterJob; // 이넘 선언
+        public CharStat stat { get; private set; } // Character.CharStat으로 스탯 변수들을 읽기위함       
+        public Inventory<Item> _userInventory;
+        public Item equippedWeapon;
+        public Item equippedArmor;
+
+        public Job characterJob;
+
         public string name;
         
 
         public Character(string name) //생성자
         {
-           _userInventory = new Inventory<Item>();
-            stat = new CharStat(); //생성시 스탯도 생성
+           _userInventory = new Inventory<Item>(); //할당
+            stat = new CharStat(); //생성시 스탯도 할당
             this.name = name;
-
-    }
+        }
         
         public void JobStat(Job job) // 선택한 직업마다 스탯이 다름
         {
@@ -51,13 +54,6 @@ namespace TextRPG
             Console.WriteLine($"Lv.{stat.level} \n{name} ({characterJob}) \n공격력: {stat.attackStat} \n방어력: {stat.defendStat} \n체력:{stat.maxHealth} \nGold: {stat.gold} G");
         }
 
-        public void PrintItems()
-        {
-            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다. ");
-            Console.WriteLine("\n[아이템 목록]");
-
-
-        }
     }
     public enum Job //캐릭터 역할군
     {

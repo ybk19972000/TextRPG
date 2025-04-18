@@ -13,7 +13,6 @@ namespace TextRPG
         public int attackStat { get; set; } = 10;
         public int defendStat { get; set; } = 5;
         public int maxHealth { get; set; } = 100;
-        public int gold { get; set; } = 3000;
-
+        public int gold { get; set; } = 5000;
     }
 }
